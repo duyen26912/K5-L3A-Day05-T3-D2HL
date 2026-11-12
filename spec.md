@@ -4,9 +4,13 @@
 
 > Nhóm 4 thành viên — đã được giảng viên cho phép.
 
-| Họ và Tên   | Mã Học Viên | Việc đã làm |
-| ----------- | ----------- | ----------- |
-| Vũ Gia Linh | 2A202603677 |             |
+
+| STT | Họ và tên | MSSV | Vai trò trong nhóm | Tài khoản GitHub |
+|---:|---|---|---|---|
+| 1 | Nguyễn Thị Duyên| 2A202603698 |Trưởng nhóm  | duyen26912 |
+| 2 |Võ Thị Kim Huyền| 2A202603679 |Thành viên |copengoknghek |
+| 3 | Nguyễn Đức Huân | 2A202603690 | Thành viên | NgHuanLHd |
+| 4 | Vũ Gia Linh | 2A202603677 | Thành viên |vugialinh905-wq |
 
 ---
 
