@@ -1,7 +1,4 @@
-# Bài nộp LAB5 — [Track] · Nhóm [tên]
-[Danh sách thành viên và việc mỗi người làm — copy bảng từ README]
-
-# Bài nộp LAB5 — T3 Du lịch · Nhóm <TenNhom>
+# Bài nộp LAB5 — T3 Du lịch · Nhóm D2HL
 
 **Lớp:** L3A · **Bàn / zone:** __ · **Track:** T3
 
