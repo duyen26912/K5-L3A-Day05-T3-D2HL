@@ -299,10 +299,10 @@ Trước khi thảo luận, mỗi thành viên tự xếp mức cho năm tool. B
 
 | Thành viên | Mức đề xuất | Lý do |
 |---|---|---|
-| Người phụ trách §2 | Cần khách duyệt | K4 và K6 cho thấy khách hay nói mơ hồ, mà đổi sai là mất quyền đổi duy nhất |
-| Người phụ trách §3 | Tự làm, có hoàn tác | Khách đang vội và đi cùng con nhỏ, không muốn bấm qua nhiều màn hình; có hoàn tác thì sai vẫn sửa được |
-| Người phụ trách §4 | Cần khách duyệt | Lần đổi miễn phí chỉ có một, còn một lần bấm thì rất rẻ |
-| Người phụ trách §5 | Chỉ gợi ý, khách tự đổi trên trang Đổi lịch | An toàn nhất, trợ lý không bao giờ dùng quyền của khách |
+| Huân | Cần khách duyệt | K4 và K6 cho thấy khách hay nói mơ hồ, mà đổi sai là mất quyền đổi duy nhất |
+| Linh | Tự làm, có hoàn tác | Khách đang vội và đi cùng con nhỏ, không muốn bấm qua nhiều màn hình; có hoàn tác thì sai vẫn sửa được |
+| Duyên | Cần khách duyệt | Lần đổi miễn phí chỉ có một, còn một lần bấm thì rất rẻ |
+| Huyền | Chỉ gợi ý, khách tự đổi trên trang Đổi lịch | An toàn nhất, trợ lý không bao giờ dùng quyền của khách |
 
 Mỗi phía đều có cái giá riêng:
 
