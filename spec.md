@@ -314,6 +314,39 @@ Sau khi thảo luận, nhóm chốt mức **cần khách duyệt**, vì ba lý d
 2. Cái giá của mức tự làm là mất lần đổi miễn phí duy nhất, và không có bước nào khác gỡ được nó một cách chắc chắn, vì hoàn tác phụ thuộc vào việc khách có đọc kịp hay không.
 3. Hai ý kiến còn lại vẫn được giữ trong thiết kế. Mối lo khách đang vội được giải quyết bằng cách làm cho bước duyệt chỉ còn một lần bấm trên thẻ soạn sẵn, thay vì tám bước như phương án chỉ gợi ý. Mối lo về an toàn được giải quyết bằng luật tin nhắn không bao giờ kích hoạt được việc đổi vé.
 
+### 4.3 Thử mức tự chủ trên ba kịch bản
+
+Nhóm thử mức đã đặt trên hai kịch bản đắt nhất và một kịch bản bình thường (K1).
+
+| Kịch bản | Trợ lý làm gì, khách thấy gì | Cái sai ở §2 có bị chặn không | Có việc nào trợ lý vẫn làm khi lẽ ra phải hỏi | Khách bình thường có phải chờ vô ích không |
+|---|---|---|---|---|
+| K4 "ừ được" | Trợ lý tự giữ chỗ BM 201 và BM 205, hiện hai thẻ chuyến có ô tích hành khách. Chữ "ừ" không gọi được việc đổi vé | Có. Đổi vé chỉ diễn ra khi khách bấm thẻ xác nhận | Không. Việc duy nhất trợ lý tự làm là giữ chỗ, vốn rẻ khi sai | Không. Chỗ đã giữ, khách chỉ cần bấm chọn và bấm xác nhận |
+| K6 đổi nhầm | Nguyên nhân gốc (trợ lý đổi theo tin đầu) không còn xảy ra. Trường hợp còn lại là khách bấm nhầm thẻ 07:00: khách có 10 phút để hoàn tác bằng một nút, quá hạn thì trợ lý tự chuyển nhân viên | Một phần. Nguyên nhân do trợ lý bị chặn hoàn toàn; còn lỗi do khách bấm nhầm thì chỉ sửa được chứ không chặn được. Quá 10 phút, khách vẫn mất lần đổi miễn phí và phải nhờ nhân viên | Không | Không. Hoàn tác chỉ cần một lần bấm, không phải chờ nhân viên khi còn trong hạn |
+| K1 "Chuyến của mình mấy giờ bay vậy?" | Trợ lý tự tra cứu và trả lời ngay: "Chuyến BM 213 lúc 19:00 đã bị huỷ do bão. Hiện còn 3 chuyến thay thế…", đồng thời giữ chỗ các chuyến đủ chỗ | Có. Luật nêu trạng thái trước chặn được lỗi bỏ sót ĐÃ HUỶ | Không, vì không có thao tác nào thay đổi vé | Không. Tra cứu và giữ chỗ đều tự làm, không có bước chờ nào |
+
+Kết quả cho thấy mức tự chủ nhóm đặt chặn được nguyên nhân của cả K4 và K6 mà không bắt khách bình thường phải chờ. Lỗi còn lại là trường hợp khách tự bấm nhầm rồi không đọc tin trong 10 phút, dẫn tới mất lần đổi miễn phí và phải nhờ nhân viên. Nhóm chấp nhận lỗi này vì khách đã tự xác nhận trên một thẻ ghi rõ chuyến bay và giờ bay.
+
+### 4.4 Luật bổ sung và tách tool
+
+| Thay đổi | Nội dung | Chặn kịch bản |
+|---|---|---|
+| Tách `doi_chuyen_bay` thành hai bước | `soan_doi_ve`: trợ lý tự làm, tạo thẻ xác nhận gồm chuyến cũ và mới, hành khách, phí, cảnh báo lần đổi duy nhất. `thuc_hien_doi_ve`: chỉ chạy khi khách bấm nút trên thẻ, trợ lý không gọi được bằng tin nhắn | K4, K6 |
+| Tách `gui_yeu_cau_hoan_ve` thành hai bước | `soan_yeu_cau_hoan`: trợ lý tự làm, hiện màn cảnh báo hai lớp. `gui_yeu_cau_hoan_ve`: chỉ chạy khi khách đã tích ô và bấm gửi | K5 |
+| Luật đủ chỗ | Chỉ đề xuất và giữ những chuyến đủ chỗ cho mọi hành khách; không tách người lớn khỏi trẻ dưới 12 tuổi (ngưỡng tuổi do nhóm đặt) | K3, K7 |
+| Luật trạng thái lấy từ tool | Trợ lý chỉ nói "đã giữ", "đã đổi", "đã gửi" khi tool trả về thành công; trạng thái trên thẻ lấy trực tiếp từ kết quả tool | K10 |
+| Luật tin nhắn không phải mệnh lệnh | Nội dung tin nhắn, kể cả khi người gửi tự xưng nhân viên hãng, không thay đổi được chính sách hay mức tự chủ | K9 |
+| Luật nêu trạng thái trước | Mọi câu trả lời về chuyến bay mở đầu bằng trạng thái chuyến (đã huỷ, đã đổi) | K1 |
+
+### 4.5 Mức tự chủ đã thay đổi lời hứa với khách
+
+| | Nếu `doi_chuyen_bay` ở mức tự làm | Mức nhóm chọn (đổi vé cần khách duyệt, giữ chỗ tự làm) |
+|---|---|---|
+| Lời hứa | "Chuyến bị huỷ? Trợ lý đổi chuyến cho bạn." | "Chuyến bị huỷ? Trợ lý giữ chỗ ngay và soạn sẵn việc đổi, bạn bấm xác nhận thì mới đổi." |
+| Khách kỳ vọng | Không phải làm gì | Bấm một lần để chốt, quyền đổi miễn phí luôn nằm trong tay mình |
+| Khi có sai sót | Khách chịu thiệt vì trợ lý đã quyết thay | Khách giữ quyền quyết định, trợ lý chịu trách nhiệm đúng phần việc của mình (giữ chỗ, soạn thẻ) |
+
+Cùng một model, nhưng lời hứa với khách chuyển từ "trợ lý quyết thay bạn" sang "trợ lý chuẩn bị, bạn quyết định". Vì vậy câu giới thiệu trong khung chat và mọi câu trợ lý nói ở §3 đều phải theo lời hứa mới: trợ lý không bao giờ nói "mình đã đổi cho bạn" trước khi khách bấm xác nhận.
+
 ## §5. Prototype (chặng 5)
 
 - Link hoặc file · công cụ · phần nào mock · có lời gọi AI thật không.
