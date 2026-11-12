@@ -109,13 +109,53 @@ Tiêu chí nhóm dùng để so: **(a)** có gọi tool không đảo được h
 - **K3 (21:00 chỉ 1 chỗ)** — rủi ro tách mẹ và bé 5 tuổi rất nghiêm trọng. Không chọn vì chặn được bằng **một luật dữ liệu** ("chỉ đề xuất / giữ chuyến đủ chỗ cho mọi hành khách trong đặt chỗ"); nhóm đưa luật này vào §4 và thể hiện trên prototype (BM 217 bị khoá), nên K3 trở thành **biến thể của K4** thay vì một ca riêng.
 
 ---
-## §3. Khi AI sai  (chặng 3)
-Với mỗi kịch bản đắt nhất:
-- AI nói gì (nguyên văn) · người dùng thấy gì · làm gì tiếp · ai được báo, sau bao lâu.
-- Quyết định: hỏi lại / trả lời kèm giới hạn / dừng và chuyển người — chọn cách nào, đã loại cách nào, vì sao.
-- Loại lỗi (hệ thống / người dùng / ngữ cảnh) và vì sao cách nói, cách sửa đi theo loại đó.
-- 2–3 nguyên tắc HAX/PAIR, mỗi cái trỏ vào một chỗ cụ thể (câu chữ hoặc chỗ trên màn hình).
-- Lỗi nào sửa câu chữ không cứu được (nếu có), và thiết kế cứu nó thế nào.
+## §3. Khi AI sai
+
+Phần này thiết kế cho hai kịch bản đắt nhất là K4 và K6. Ở mọi tin nhắn, bong bóng chat của trợ lý đều có nhãn "Trợ lý đặt chỗ (AI)" để khách biết mình đang nói chuyện với AI, đúng với yêu cầu minh bạch tại Điều 11 khoản 1 Luật Trí tuệ nhân tạo 134/2025/QH15.
+
+### 3.1 K4 — Khách trả lời "ừ được" cho câu hỏi có hai lựa chọn
+
+**Tình huống.** Trợ lý vừa báo chuyến BM 213 bị huỷ và hỏi: "Sáng mai còn chuyến 07:00 (9 chỗ) và 09:30 (4 chỗ), bạn muốn chuyến nào?". Khách nhắn lại: "ừ được".
+
+**Cách xử lý nhóm chọn: hỏi lại một lần bằng nút chọn, đồng thời giữ chỗ cả hai chuyến trong lúc chờ.**
+
+Nhóm đã cân nhắc bốn cách:
+
+| Cách xử lý | Quyết định | Lý do |
+|---|---|---|
+| Hỏi lại bằng nút chọn chuyến và hành khách, giữ chỗ cả hai chuyến | Chọn | Khách tự trả lời được trong vài giây. Giữ chỗ bằng `giu_cho_chuyen_moi` (tự nhả sau 20 phút) giúp không bị hết chỗ trong lúc hỏi, và chưa đụng tới lần đổi miễn phí |
+| Đoán là khách chọn 07:00, nói rõ "mình hiểu là bạn chọn 07:00" rồi đổi | Loại | Vẫn dùng mất lần đổi miễn phí dựa trên phỏng đoán. Đoán sai thì thành K6. Đây chính là kiểu "đúng nhờ may" đã nêu ở §2 |
+| Dừng lại và chuyển nhân viên | Loại | Câu hỏi "chuyến nào" khách tự trả lời được, không cần tới người. Trong lúc chờ nhân viên (nhóm ước khoảng 5 phút), chuyến 09:30 chỉ còn 4 chỗ có thể hết, và khách đang đi cùng trẻ nhỏ phải đợi thêm |
+| Hỏi lại bằng chữ: "Bạn chọn chuyến nào ạ?" | Loại | Khách vừa trả lời một câu hỏi bằng chữ bằng đúng một chữ "ừ", hỏi lại bằng chữ rất dễ nhận lại câu mơ hồ. Nút chọn không cho phép trả lời mơ hồ |
+
+**Trợ lý nói:**
+
+> "Mình chưa đổi vé nhé. Bạn bấm chọn giúp mình **một chuyến** và **những ai sẽ bay** ở bên dưới. Trong lúc bạn chọn, mình đã giữ chỗ cả hai chuyến cho 2 người trong 20 phút, nên bạn chưa mất lần đổi miễn phí."
+
+Câu này chỉ hứa hai điều mà hệ thống làm được thật: đã giữ chỗ và chưa đổi vé. Trợ lý không hứa sau 20 phút vẫn còn chỗ.
+
+**Khách thấy trên màn hình:**
+
+1. Nhãn màu vàng "Chưa rõ: bạn trả lời 'ừ được' cho câu hỏi có 2 lựa chọn". Nhóm chọn nói chỗ chưa rõ bằng lời thay vì hiện một con số phần trăm.
+2. Hai thẻ chuyến: BM 201 · 13/11 07:00 · còn 9 chỗ và BM 205 · 13/11 09:30 · còn 4 chỗ. Mỗi thẻ có ô tích cho từng hành khách: Nguyễn Minh An và Nguyễn Gia Bình (5 tuổi), mặc định tích cả hai. Nếu bỏ tích bé Bình, thẻ báo "Trẻ 5 tuổi không bay một mình được, vui lòng gặp nhân viên" và không cho xác nhận.
+3. Thẻ BM 217 · 21:00 hiện mờ với dòng "Chỉ còn 1 chỗ, không đủ cho 2 người" và không bấm được.
+4. Đồng hồ "Đang giữ chỗ · còn 19:42".
+5. Dòng căn cứ: "Dựa vào: đặt chỗ TRV-7Q2K · chính sách Bay Mẫu: chuyến bị huỷ được đổi miễn phí 1 lần trong 48 giờ · số chỗ cập nhật lúc 15:00".
+6. Nút "Gặp nhân viên" luôn nằm ở cuối.
+
+**Khách làm gì tiếp:**
+
+- Bấm vào một thẻ thì hiện thẻ xác nhận: "BM 213 (đã huỷ) → BM 205 · 13/11 09:30 · Nguyễn Minh An, Nguyễn Gia Bình · phí 0 đ · dùng lần đổi miễn phí duy nhất", kèm hai nút "Xác nhận đổi" và "Chọn lại".
+- Bấm "Gặp nhân viên" thì cuộc chat được chuyển kèm tóm tắt.
+- Nếu khách không làm gì: chỗ giữ tự nhả sau 20 phút, vé gốc không thay đổi, lần đổi miễn phí còn nguyên. Khi còn 5 phút, trợ lý nhắc một lần: "Chỗ giữ còn 5 phút. Bạn vẫn có thể chọn sau, nhưng chuyến có thể hết chỗ." Trợ lý không bao giờ tự đổi vé khi hết giờ.
+
+**Ai được báo:**
+
+- Nếu khách tự chọn được thì không cần báo ai.
+- Nếu hết 20 phút mà khách chưa chọn, hệ thống để lại một ghi chú trong hàng chờ của nhân viên ("khách TRV-7Q2K chưa chọn chuyến thay thế, chỗ giữ đã nhả") chứ không tự chuyển cuộc chat, vì có thể khách chỉ đang bận.
+- Nếu khách bấm "Gặp nhân viên", nhân viên nhận ngay và thấy sẵn: chuyến gốc đã huỷ, hai hành khách trong đó có trẻ 5 tuổi, hai chuyến đang giữ cùng thời gian còn lại, và câu trả lời của khách. Khách không phải kể lại từ đầu.
+
+**Loại lỗi: lỗi ngữ cảnh.** Hiểu "ừ được" là đồng ý không sai về mặt ngôn ngữ, và một trợ lý làm đúng theo lời khách sẽ hiểu như vậy. Nhưng khi đang có hai lựa chọn, chữ "ừ" không chọn được cái nào. Hệ thống chạy đúng như thiết kế cũ nhưng sai với tình huống thật của khách. Vì chưa có gì sai xảy ra nên trợ lý không xin lỗi, và cũng không trách khách kiểu "bạn trả lời chưa rõ", mà chỉ nói trạng thái: "Mình chưa đổi vé nhé". Cách sửa ở đây là sửa thiết kế, không chỉ sửa câu chữ (xem 3.4).
 
 ## §4. Mức tự chủ  (chặng 4)
 Với mỗi tool:
