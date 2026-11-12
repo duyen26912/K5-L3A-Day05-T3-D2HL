@@ -1,10 +1,9 @@
 # Bài nộp LAB5 — [Track] · Nhóm [tên]
 [Danh sách thành viên và việc mỗi người làm — copy bảng từ README]
 
-## §1. Lát cắt & phạm vi
 # Bài nộp LAB5 — T3 Du lịch · Nhóm <TenNhom>
 
-**Lớp:** L3_ · **Bàn / zone:** __ · **Track:** T3
+**Lớp:** L3A · **Bàn / zone:** __ · **Track:** T3
 
 > Nhóm 4 thành viên — đã được giảng viên cho phép.
 
@@ -12,15 +11,10 @@
 |---|---|---|
 |Vũ Gia Linh|2A202603677||
 
-| (A) | | §1 Lát cắt & phạm vi, §2 Kịch bản rủi ro, kịch bản demo |
-| (B) | | §3 Khi AI sai, câu chữ prototype |
-| (C) | | §4 Mức tự chủ, §6 Tốt là gì |
-| (D) | | §5 Prototype, ảnh đánh số, repo |
+
 
 ---
-
 ## §1. Lát cắt & phạm vi
-
 ### 1.1 Lát cắt
 
 > Trong **Đặt chỗ của tôi**, khi **hành khách** vừa nhận tin chuyến bay bị huỷ và nhắn hỏi, **AI đề xuất và giữ chỗ chuyến thay thế, hỏi lại cho rõ, đổi vé, hay chuyển nhân viên**, để khách tới nơi kịp mà không mất vé hay tiền vì một thao tác không đảo lại được.
