@@ -157,6 +157,61 @@ Câu này chỉ hứa hai điều mà hệ thống làm được thật: đã gi
 
 **Loại lỗi: lỗi ngữ cảnh.** Hiểu "ừ được" là đồng ý không sai về mặt ngôn ngữ, và một trợ lý làm đúng theo lời khách sẽ hiểu như vậy. Nhưng khi đang có hai lựa chọn, chữ "ừ" không chọn được cái nào. Hệ thống chạy đúng như thiết kế cũ nhưng sai với tình huống thật của khách. Vì chưa có gì sai xảy ra nên trợ lý không xin lỗi, và cũng không trách khách kiểu "bạn trả lời chưa rõ", mà chỉ nói trạng thái: "Mình chưa đổi vé nhé". Cách sửa ở đây là sửa thiết kế, không chỉ sửa câu chữ (xem 3.4).
 
+### 3.2 K6 — Trợ lý vừa đổi nhầm
+
+**Tình huống.** Vé đã bị đổi sang BM 201 lúc 07:00 cho cả hai người. Khách nhắn: "Ơ sao đổi sang 7h? Mình bảo 9h30 mà!"
+
+Ở §2, K6 xảy ra vì trợ lý hành động ngay theo tin đầu ("đổi sang sáng mai đi") khi khách chưa kịp nhắn "9h30". Với thiết kế ở mục 3.4 và §4, con đường này đã bị chặn vì tin nhắn không còn kích hoạt được việc đổi vé. Tuy nhiên đổi nhầm vẫn có thể xảy ra theo một cách khác: khách tự bấm nhầm thẻ 07:00 rồi bấm "Xác nhận đổi". Vì vậy nhóm thiết kế màn sửa lỗi dùng chung cho cả hai nguồn lỗi, nhưng cách trợ lý nói sẽ khác nhau tuỳ loại lỗi.
+
+**Cách xử lý nhóm chọn: dừng lại, cho khách hoàn tác ngay bằng một nút; hết thời gian hoàn tác thì chuyển nhân viên ngay.**
+
+| Cách xử lý | Quyết định | Lý do |
+|---|---|---|
+| Một nút "Hoàn tác & đổi sang 09:30" kèm đồng hồ thời gian còn hoàn tác | Chọn | Khách đã nói rõ muốn 09:30 nên chỉ cần một thao tác. Hoàn tác trả lại lần đổi miễn phí. Chuyến 09:30 chỉ còn 4 chỗ nên càng nhanh càng tốt |
+| Hỏi lại: "Bạn muốn đổi sang chuyến nào?" | Loại | Khách đã nói "9h30". Hỏi lại là bắt khách nói hai lần và đẩy lỗi về phía khách |
+| Tự hoàn tác và tự đổi sang 09:30 ngay khi đọc tin | Loại | Lại là hành động theo một tin nhắn tự do, đúng kiểu lỗi đã gây ra K6. Khách có thể nhắn tiếp "à thôi giữ 7h cũng được". Một lần bấm là đủ nhanh |
+| Chuyển nhân viên ngay | Chỉ dùng khi hết hạn hoàn tác | Khi còn trong hạn, khách tự sửa nhanh hơn chờ người. Hết hạn thì trợ lý không còn tool nào sửa được, lúc đó mới chuyển |
+
+**Về thời gian hoàn tác.** Đây là giả định thiết kế của nhóm. Theo hướng dẫn công khai của Traveloka, vé mới tới trong khoảng 60 phút sau khi thanh toán và vé cũ được giữ nguyên tới khi xong. Từ đó nhóm giả định hệ thống cho phép huỷ lệnh đổi trong 10 phút đầu, trước khi vé mới được xuất. Huỷ trong khoảng này thì vé quay về như cũ và lần đổi miễn phí được trả lại.
+
+**Trợ lý nói, tuỳ loại lỗi:**
+
+- Khi lỗi do trợ lý đổi nhầm:
+  > "Xin lỗi bạn, mình đã đổi nhầm sang BM 201 lúc 07:00 trong khi bạn muốn 09:30. Bạn bấm **Hoàn tác & đổi sang 09:30** bên dưới nhé: vé sẽ quay về như trước và bạn không mất lần đổi miễn phí. Mình đã giữ sẵn 2 chỗ trên BM 205."
+- Khi khách bấm nhầm thẻ:
+  > "Vé vừa được đổi sang BM 201 lúc 07:00 theo lựa chọn lúc 15:06. Nếu muốn đổi sang 09:30, bạn bấm **Hoàn tác & đổi sang 09:30**, vé sẽ quay về như trước và bạn không mất lần đổi miễn phí."
+- Khi đã hết thời gian hoàn tác:
+  > "Vé mới BM 201 đã được xuất nên mình không tự hoàn tác được nữa. Mình đã chuyển bạn sang nhân viên hỗ trợ, họ đã thấy toàn bộ việc đổi vé nên bạn không cần kể lại."
+
+Sau khi hết hạn, trợ lý không hứa chắc chắn đổi được sang 09:30, vì không còn tool nào của trợ lý làm được việc đó.
+
+**Khách thấy trên màn hình:**
+
+1. Thẻ trạng thái "Đã đổi sang BM 201 · 07:00 · đang xuất vé · hoàn tác được trong 09:42", đồng hồ đếm ngược.
+2. Nút chính "Hoàn tác & đổi sang 09:30", bên dưới ghi "BM 205 · còn 4 chỗ · đã giữ 2 chỗ cho bạn".
+3. Hai nút phụ "Hoàn tác, mình chọn lại" và "Gặp nhân viên".
+4. Dòng căn cứ: "Dựa vào: lệnh đổi lúc 15:06 · lần đổi miễn phí: đã dùng, sẽ được trả lại nếu hoàn tác".
+
+**Khách làm gì tiếp:**
+
+- Bấm "Hoàn tác & đổi sang 09:30" thì vé quay về BM 213 (đã huỷ), lần đổi miễn phí được trả lại, rồi hiện thẻ xác nhận BM 205 cho hai người. Khách bấm "Xác nhận đổi" là xong, tổng cộng hai lần bấm và không phải nhắn lại.
+- Nếu khách không làm gì: sau 10 phút vé mới được xuất và không còn hoàn tác được. Trợ lý tự chuyển nhân viên kèm câu thông báo ở trên, để khách không phải tự phát hiện khi đã quá muộn.
+
+**Ai được báo:**
+
+- Nếu lỗi do trợ lý: nhân viên hỗ trợ được báo ngay, kể cả khi khách đã tự hoàn tác thành công, với ghi chú "AI đổi nhầm, khách đã hoàn tác" để đội sản phẩm tìm nguyên nhân. Khách không phải chờ ai.
+- Nếu khách bấm nhầm và đã hoàn tác thành công: không cần báo ai.
+- Nếu hết thời gian hoàn tác: chuyển nhân viên ngay và xếp ưu tiên vì vé đã bị đổi sai. Nhân viên thấy sẵn chuyến gốc BM 213 (huỷ do bão), chuyến bị đổi nhầm BM 201, chuyến khách muốn BM 205, thời điểm ra lệnh đổi, nguồn lỗi (do trợ lý hay do khách bấm) và thông tin hai hành khách, trong đó có trẻ 5 tuổi.
+
+**Loại lỗi:**
+
+| | Lỗi hệ thống (trợ lý đổi nhầm) | Lỗi người dùng (khách bấm nhầm thẻ) |
+|---|---|---|
+| Cách nói | Xin lỗi thẳng, trợ lý nhận lỗi về mình | Không xin lỗi thay, không trách khách, chỉ nêu sự việc một cách trung tính |
+| Cách sửa | Hoàn tác, đồng thời báo nhân viên để sửa nguyên nhân trong hệ thống | Hoàn tác là đủ; về lâu dài xem lại thẻ xác nhận đã đủ rõ chưa |
+
+**So với prototype mẫu.** Prototype mẫu cũng có hoàn tác 10 phút, nhưng ở đó việc đổi vé là do người thiết kế cố ý đặt ở mức tự làm. Thiết kế của nhóm khác ở bốn điểm: nguồn lỗi là trợ lý hành động khi khách còn đang nhắn; trợ lý nói khác nhau tuỳ lỗi do hệ thống hay do người dùng; có nhánh hết thời gian hoàn tác thì tự chuyển nhân viên; và nhân viên được báo cả khi khách đã tự hoàn tác thành công nếu lỗi do trợ lý.
+
 ## §4. Mức tự chủ  (chặng 4)
 Với mỗi tool:
 - Mức của nhóm (tự làm / cần người duyệt / cấm). Nếu cần người duyệt: ai duyệt · người duyệt thấy gì · quá hạn thì sao.
