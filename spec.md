@@ -4,12 +4,12 @@
 
 > Nhóm 4 thành viên — đã được giảng viên cho phép.
 
-| STT | Họ và tên        | MSSV        | Vai trò trong nhóm | Tài khoản GitHub |
-| --: | ---------------- | ----------- | ------------------ | ---------------- |
-|   1 | Nguyễn Thị Duyên | 2A202603698 | Trưởng nhóm        | duyen26912       |
-|   2 | Võ Thị Kim Huyền | 2A202603679 | Thành viên         | copengoknghek    |
-|   3 | Nguyễn Đức Huân  | 2A202603690 | Thành viên         | NgHuanLHd        |
-|   4 | Vũ Gia Linh      | 2A202603677 | Thành viên         | vugialinh905-wq  |
+| STT | Họ và tên        | MSSV        | Vai trò trong nhóm | Tài khoản GitHub | Việc đã làm                                                                                                                                               |
+| --: | ---------------- | ----------- | ------------------ | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|   1 | Nguyễn Thị Duyên | 2A202603698 | Trưởng nhóm        | duyen26912       | §3.2 K6 khi AI đổi nhầm (câu chữ, hoàn tác, ai được báo). §4.3 thử mức trên 3 kịch bản, §4.4 luật / tách tool, §4.5 lời hứa với khách. Điều phối bài nộp. |
+|   2 | Võ Thị Kim Huyền | 2A202603679 | Thành viên         | copengoknghek    | §3.3 HAX/PAIR, §3.4 lỗi sửa câu chữ không cứu được. §5 prototype + ảnh đánh số. §6 tiêu chí Pass/Fail.                                                    |
+|   3 | Nguyễn Đức Huân  | 2A202603690 | Thành viên         | NgHuanLHd        | §2 kịch bản rủi ro (K1–K10, chọn K4/K6). §4.1 mức từng tool, §4.2 tool khó xếp (`doi_chuyen_bay`).                                                        |
+|   4 | Vũ Gia Linh      | 2A202603677 | Thành viên         | vugialinh905-wq  | §1 lát cắt, quyền AI, ai chịu khi sai, 3 việc không làm. §3.1 K4 khi khách nói "ừ được".                                                                  |
 
 ---
 
@@ -381,10 +381,10 @@ Header: **② Cần khách xác nhận** + **K4**. Banner phone vẫn **BM 213 �
 | **1** | 1a | Nhãn vàng "Chưa rõ: bạn trả lời 'ừ được' cho câu hỏi có 2 lựa chọn. Mình chưa đổi vé nhé." | HAX **G2** — nói chỗ chưa chắc bằng lời, không dùng % | `doi_chuyen_bay` **cần khách duyệt**; chữ "ừ" không phải duyệt |
 | **3** | 1a | "Bấm chọn một chuyến và những ai sẽ bay"; ô tích An và Bình (5 tuổi); nút **Chọn chuyến này** trên BM 201 | HAX **G10** thu hẹp khi nghi ngờ | Trợ lý chỉ soạn lựa chọn; chưa gọi đổi vé |
 | **4** | 1a, 1b | "Đang giữ chỗ · còn 19:57" | HAX **G8/G9** + PAIR Feedback & Control | `giu_cho_chuyen_moi` **tự làm**, đảo được (tự nhả sau 20 phút) |
-| **2** | 1b | "Dựa vào: chưa gọi doi_chuyen_bay · lần đổi miễn phí còn" | HAX **G11** + PAIR Explainability | Căn cứ từ `tra_cuu_dat_cho` (**tự làm**, chỉ đọc) |
+| **2** | 1b | "Dựa vào: chưa gọi doi*chuyen_bay · lần đổi miễn phí còn" | HAX **G11** + PAIR Explainability | Căn cứ từ `tra_cuu_dat_cho` (**tự làm**, chỉ đọc) |
 | **6** | 1b | **Chưa, để mình nghĩ lại** | HAX **G9** sửa dễ | Không commit; vé gốc nguyên |
 | **5** | 1b | **Gặp nhân viên** | PAIR Errors & Graceful Failure | `chuyen_nhan_vien` **tự làm**, nút luôn hiện |
-| _(không số)_ | 1b | Thẻ **BM 217 21:00** mờ, "✗ 1 chỗ / Không đủ chỗ", không có nút Chọn | Luật đủ chỗ §4.4 | Việc cấm (tách mẹ–con, đổi 1 chỗ cho 2 người) **không có CTA** |
+| *(không số)\_ | 1b | Thẻ **BM 217 21:00** mờ, "✗ 1 chỗ / Không đủ chỗ", không có nút Chọn | Luật đủ chỗ §4.4 | Việc cấm (tách mẹ–con, đổi 1 chỗ cho 2 người) **không có CTA** |
 ![Ảnh 2 — K6 mức ③, sau tin sửa](prototype/image/anh-2-k6.png)
 **Ảnh 2 — K6, mức ③, sau "Ơ sao đổi sang 7h?"** (`anh-2-k6.png`)
 Header: **③ Tự làm + hoàn tác** + **K6**. Cột phải: `doi_chuyen_bay` pill **Tự làm + hoàn tác**. Thanh bước có nút đỏ — cái sai đã xảy ra. (Banner phone vẫn chữ BM 213 ĐÃ HUỶ vì prototype không đổi banner ở bước hoàn tác; nội dung chat và hộp hoàn tác mới là nguồn sự thật: vé đã sang BM 201 07:00.)
