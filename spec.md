@@ -371,54 +371,67 @@ Cùng một model, nhưng lời hứa với khách chuyển từ "trợ lý quy�
 
 ### 5.2 Ảnh đánh số
 
-Khung chat không chứa hết một màn K4, nên **Ảnh 1 gồm hai tấm cùng một trạng thái** (sau khi khách gửi "ừ được", mức ②). **Ảnh 2** là K6 ở mức ③.
-![Ảnh 1a — K4 mức ②, phần trên sau "ừ được"](prototype/image/anh-1a-k4.png)
-![Ảnh 1b — K4 mức ②, phần dưới sau khi cuộn](prototype/image/anh-1b-k4.png)
-**Ảnh 1 — K4, mức ②, ngay sau "ừ được"** (`anh-1a-k4.png` + `anh-1b-k4.png`)
-Header: **② Cần khách xác nhận** + **K4**. Banner phone vẫn **BM 213 ĐÃ HUỶ** — vé chưa đổi. Cột phải: lời hứa mức ②; `doi_chuyen_bay` pill **Cần xác nhận**.
-| Số trên ảnh | Tấm | Thể hiện gì | Nguyên tắc | Mức tự chủ |
-|---:|---|---|---|---|
-| **1** | 1a | Nhãn vàng "Chưa rõ: bạn trả lời 'ừ được' cho câu hỏi có 2 lựa chọn. Mình chưa đổi vé nhé." | HAX **G2** — nói chỗ chưa chắc bằng lời, không dùng % | `doi_chuyen_bay` **cần khách duyệt**; chữ "ừ" không phải duyệt |
-| **3** | 1a | "Bấm chọn một chuyến và những ai sẽ bay"; ô tích An và Bình (5 tuổi); nút **Chọn chuyến này** trên BM 201 | HAX **G10** thu hẹp khi nghi ngờ | Trợ lý chỉ soạn lựa chọn; chưa gọi đổi vé |
-| **4** | 1a, 1b | "Đang giữ chỗ · còn 19:57" | HAX **G8/G9** + PAIR Feedback & Control | `giu_cho_chuyen_moi` **tự làm**, đảo được (tự nhả sau 20 phút) |
-| **2** | 1b | "Dựa vào: chưa gọi doi*chuyen_bay · lần đổi miễn phí còn" | HAX **G11** + PAIR Explainability | Căn cứ từ `tra_cuu_dat_cho` (**tự làm**, chỉ đọc) |
-| **6** | 1b | **Chưa, để mình nghĩ lại** | HAX **G9** sửa dễ | Không commit; vé gốc nguyên |
-| **5** | 1b | **Gặp nhân viên** | PAIR Errors & Graceful Failure | `chuyen_nhan_vien` **tự làm**, nút luôn hiện |
-| *(không số)\_ | 1b | Thẻ **BM 217 21:00** mờ, "✗ 1 chỗ / Không đủ chỗ", không có nút Chọn | Luật đủ chỗ §4.4 | Việc cấm (tách mẹ–con, đổi 1 chỗ cho 2 người) **không có CTA** |
-![Ảnh 2 — K6 mức ③, sau tin sửa](prototype/image/anh-2-k6.png)
-**Ảnh 2 — K6, mức ③, sau "Ơ sao đổi sang 7h?"** (`anh-2-k6.png`)
-Header: **③ Tự làm + hoàn tác** + **K6**. Cột phải: `doi_chuyen_bay` pill **Tự làm + hoàn tác**. Thanh bước có nút đỏ — cái sai đã xảy ra. (Banner phone vẫn chữ BM 213 ĐÃ HUỶ vì prototype không đổi banner ở bước hoàn tác; nội dung chat và hộp hoàn tác mới là nguồn sự thật: vé đã sang BM 201 07:00.)
-| Số trên ảnh | Thể hiện gì | Nguyên tắc | Mức tự chủ |
-|---:|---|---|---|
-| **1** | "Xin lỗi bạn, mình đã đổi nhầm sang BM 201 lúc 07:00 trong khi bạn muốn 09:30. Mình đã giữ sẵn 2 chỗ trên BM 205." | PAIR Errors; **lỗi hệ thống** — nhận về mình | `doi_chuyen_bay` **tự làm** — đúng cái giá nhóm đã loại ở §4.2 |
-| **4** | "Hoàn tác được trong **10:00**" + "đã giữ 2 chỗ" | HAX **G8/G9** | Hoàn tác trong hạn (10 phút, giả định §3.2) |
-| **6** | Nút **"Hoàn tác & đổi sang BM 205 · 09:30"**; phụ "Hoàn tác, mình chọn lại" | HAX **G9** — một lần bấm, không nhắn lại từ đầu | Khách tự sửa khi còn hạn |
-| **5** | **Gặp nhân viên** | PAIR graceful failure | Hết hạn thì trợ lý **tự** chuyển (`timeout` trong prototype: vé đã xuất, hồ sơ NV sẵn) |
-| **2** | "Dựa vào: lệnh đổi lúc 15:06 · lần đổi miễn phí đã dùng, sẽ được trả lại nếu hoàn tác" | G11 | Trạng thái lấy từ tool, không bịa |
-Cột phải (TA hỏi "chỉ G\_\_"): số cam trên chat trùng danh sách "Chú thích: nguyên tắc nào nằm ở đâu".
+Khung chat không chứa hết một màn K4, nên Ảnh 1 gồm **hai tấm cùng một trạng thái** (sau khi khách gửi "ừ được", mức ②). Ảnh 2 là K6 ở mức ③.
+
+**Ảnh 1a — K4, mức ②, phần trên**
+
+![Ảnh 1a K4 sau khi khách gửi ừ được](prototype/image/anh-1a-k4.png)
+
+**Ảnh 1b — K4, mức ②, phần dưới (cùng trạng thái, cuộn chat)**
+
+![Ảnh 1b K4 thẻ chuyến BM 205 BM 217 và căn cứ](prototype/image/anh-1b-k4.png)
+
+Header lúc chụp: **② Cần khách xác nhận** + **K4**. Banner phone vẫn BM 213 **ĐÃ HUỶ** (vé chưa đổi). Cột phải: lời hứa mức ②; `doi_chuyen_bay` = Cần xác nhận.
+
+|  Số | Tấm    | Thể hiện gì                                                                | Nguyên tắc                                        | Mức tự chủ                                                 |
+| --: | ------ | -------------------------------------------------------------------------- | ------------------------------------------------- | ---------------------------------------------------------- |
+|   1 | 1a     | Nhãn vàng: chưa rõ vì "ừ được" khi có 2 lựa chọn; chưa đổi vé              | HAX G2 (nói chỗ chưa chắc bằng lời, không dùng %) | `doi_chuyen_bay` cần khách duyệt; chữ "ừ" không phải duyệt |
+|   3 | 1a     | Chọn một chuyến và ai bay; ô tích An / Bình (5 tuổi); nút Chọn trên BM 201 | HAX G10 thu hẹp khi nghi ngờ                      | Trợ lý chỉ soạn lựa chọn; chưa gọi đổi vé                  |
+|   4 | 1a, 1b | Đồng hồ giữ chỗ còn 19:57                                                  | HAX G8/G9 + PAIR Feedback & Control               | `giu_cho_chuyen_moi` tự làm, tự nhả sau 20 phút            |
+|   2 | 1b     | Dòng Dựa vào: chưa gọi doi_chuyen_bay; lần đổi miễn phí còn                | HAX G11 + PAIR Explainability                     | Căn cứ từ `tra_cuu_dat_cho` (tự làm, chỉ đọc)              |
+|   6 | 1b     | Nút "Chưa, để mình nghĩ lại"                                               | HAX G9 sửa dễ                                     | Không commit; vé gốc nguyên                                |
+|   5 | 1b     | Nút Gặp nhân viên                                                          | PAIR Errors & Graceful Failure                    | `chuyen_nhan_vien` tự làm; nút luôn hiện                   |
+|   — | 1b     | Thẻ BM 217 21:00 mờ, 1 chỗ, không nút Chọn                                 | Luật đủ chỗ §4.4                                  | Việc cấm (tách mẹ–con) không có CTA                        |
+
+**Ảnh 2 — K6, mức ③, sau tin "Ơ sao đổi sang 7h?"**
+
+![Ảnh 2 K6 hoàn tác sau khi đổi nhầm](prototype/image/anh-2-k6.png)
+
+Header lúc chụp: **③ Tự làm + hoàn tác** + **K6**. `doi_chuyen_bay` = Tự làm + hoàn tác. Thanh bước có nút đỏ (cái sai đã xảy ra). Banner phone vẫn chữ BM 213 ĐÃ HUỶ vì prototype không đổi banner ở bước này; nguồn sự thật là chat và hộp hoàn tác (vé đã sang BM 201 07:00).
+
+|  Số | Thể hiện gì                                                                       | Nguyên tắc                              | Mức tự chủ                                                |
+| --: | --------------------------------------------------------------------------------- | --------------------------------------- | --------------------------------------------------------- |
+|   1 | Xin lỗi: đã đổi nhầm BM 201 07:00 trong khi khách muốn 09:30; đã giữ 2 chỗ BM 205 | PAIR Errors; lỗi hệ thống, nhận về mình | `doi_chuyen_bay` tự làm — cái giá nhóm đã loại ở §4.2     |
+|   4 | Hoàn tác được trong 10:00; đã giữ 2 chỗ                                           | HAX G8/G9                               | Hoàn tác trong hạn 10 phút (giả định §3.2)                |
+|   6 | Nút "Hoàn tác và đổi sang BM 205 09:30"; phụ "Hoàn tác, mình chọn lại"            | HAX G9 — một lần bấm                    | Khách tự sửa khi còn hạn                                  |
+|   5 | Nút Gặp nhân viên                                                                 | PAIR graceful failure                   | Hết hạn thì tự chuyển NV (timeout, vé đã xuất, hồ sơ sẵn) |
+|   2 | Dựa vào: lệnh đổi lúc 15:06; lần đổi miễn phí sẽ được trả lại nếu hoàn tác        | HAX G11                                 | Trạng thái lấy từ tool, không bịa                         |
+
+Khi TA hỏi "chỉ G10 / G9 / G11": chỉ số cam trên khung chat, trùng cột phải "Chú thích: nguyên tắc nào nằm ở đâu".
 
 ### 5.3 Quyết định: độ chắc / bằng chứng, và điều khiển mức tự chủ
 
 **A. Hiện độ chắc và bằng chứng**
-| Cách | Quyết định | Vì sao |
-|---|---|---|
-| Nhãn chữ ("Chưa rõ" / "chưa đổi vé" / "xin lỗi, đổi nhầm") + dòng Dựa vào: mã đặt chỗ, đã/chưa gọi tool, mốc 15:00 hoặc 15:06 | Chọn | "Ừ được" là thiếu slot (chuyến nào, ai bay), không phải xác suất model. Khách đi với con nhỏ đọc một câu trạng thái nhanh hơn đọc 73%. Ảnh 1a và 1b / Ảnh 2 đều có cặp nhãn + Dựa vào |
-| Thanh % tin cậy | Loại | Số % dễ hiểu nhầm thành "AI hơi chắc là 07:00" rồi khách bấm theo — đúng kiểu "đúng nhờ may" ở §2 |
-| Chỉ viết mềm trong bong bóng, không dòng căn cứ | Loại | R5 bắt trỏ được G11; không có "Dựa vào" thì không kiểm K1/K10 |
-| Khoá hết tin chữ, chỉ còn thẻ | Loại cho bản lab | Luật "tin nhắn không kích hoạt đổi vé" vẫn giữ, nhưng demo bắt buộc phải bấm được nút "ừ được" |
+
+| Cách                                                               | Quyết định       | Vì sao                                                                                                                                          |
+| ------------------------------------------------------------------ | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| Nhãn chữ (Chưa rõ / chưa đổi vé / xin lỗi đổi nhầm) + dòng Dựa vào | Chọn             | "Ừ được" là thiếu slot (chuyến nào, ai bay), không phải xác suất model. Đọc một câu nhanh hơn đọc 73%. Ảnh 1 và Ảnh 2 đều có cặp nhãn + Dựa vào |
+| Thanh % tin cậy                                                    | Loại             | Dễ hiểu nhầm thành "AI hơi chắc là 07:00" rồi khách bấm theo — đúng vì may, không vì thiết kế (§2)                                              |
+| Chỉ viết mềm, không dòng căn cứ                                    | Loại             | R5 bắt trỏ được G11; không có Dựa vào thì không kiểm K1/K10                                                                                     |
+| Khoá hết tin chữ, chỉ còn thẻ                                      | Loại cho bản lab | Luật "tin nhắn không kích hoạt đổi vé" vẫn giữ, nhưng demo phải bấm được nút "ừ được"                                                           |
 
 **B. Điều khiển mức tự chủ**
-| Cách | Quyết định | Vì sao |
-|---|---|---|
-| Ba nút ① / ② / ③ trên header — công cụ lab, không phải UI khách | Chọn | R5: thấy ≥2 mức trên màn hình. Ảnh 1 = mức ②; Ảnh 2 = mức ③. Đổi mức thì lời hứa, pill `doi_chuyen_bay`, và chat đổi theo |
-| Slider "độ tự chủ" cho khách | Loại | Khách không có nhiệm vụ chỉnh autonomy; trượt nhầm sang tự đổi thì mất lần miễn phí |
-| Chỉ làm mức ②, ghi ①③ trong spec | Loại | Không bấm được cái giá từng phía ở §4.2 |
-| Product thật | Chỉ ship ② | Chỗ đã giữ thì thêm một lần bấm gần như không tốn; tự làm thì K4/K6 mất quyền đổi |
 
-Việc cấm trên UI: không có nút đổi tên, tách trẻ, bồi thường tiền mặt, đổi lần 2, nhập thẻ/OTP. Hoàn vé = modal hai lớp (tự tích "không rút lại được" mới gửi) — đúng `gui_yeu_cau_hoan_ve`.
-Khác mẫu: (1) công tắc 3 mức đổi lời hứa ngay trên cột phải, (2) K6 mức ② bị chặn, mức ③ mới vỡ, (3) ô tích hành khách + khoá BM 217 trên cùng thẻ (Ảnh 1), (4) K6 hết hạn hoàn tác thì tự sang NV kèm hồ sơ.
+| Cách                                                            | Quyết định     | Vì sao                                                                                          |
+| --------------------------------------------------------------- | -------------- | ----------------------------------------------------------------------------------------------- |
+| Ba nút ① / ② / ③ trên header — công cụ lab, không phải UI khách | Chọn           | R5: thấy ≥2 mức. Ảnh 1 = mức ②; Ảnh 2 = mức ③. Đổi mức thì lời hứa, pill tool, và chat đổi theo |
+| Slider độ tự chủ cho khách                                      | Loại           | Khách không có nhiệm vụ chỉnh autonomy; trượt nhầm sang tự đổi thì mất lần miễn phí             |
+| Chỉ làm mức ②, ghi ①③ trong spec                                | Loại           | Không bấm được cái giá từng phía ở §4.2                                                         |
+| Product thật                                                    | Chỉ ship mức ② | Chỗ đã giữ thì thêm một lần bấm gần như không tốn; tự làm thì K4/K6 mất quyền đổi               |
 
----
+Việc cấm trên UI: không có nút đổi tên, tách trẻ, bồi thường tiền mặt, đổi lần 2, nhập thẻ/OTP. Hoàn vé = modal hai lớp (tự tích mới gửi) — đúng `gui_yeu_cau_hoan_ve`.
+
+## Khác mẫu: (1) công tắc 3 mức đổi lời hứa trên cột phải; (2) K6 mức ② bị chặn, mức ③ mới vỡ; (3) ô tích hành khách + khoá BM 217 trên Ảnh 1; (4) K6 hết hạn hoàn tác thì tự sang NV kèm hồ sơ.
 
 ## §6. Tốt là gì (chặng 6 — nhẹ, bỏ được nếu thiếu giờ)
 
